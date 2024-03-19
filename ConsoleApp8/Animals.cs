@@ -10,14 +10,35 @@ namespace Animals
     {
         static void Main(string[] args)
         {
-            Cat cat1 = new Cat(true, true, 1);
-            Cat cat2 = new Cat(true, true, 0);
-            Dog dog1 = new Dog(true, true, 1);
-            Dog dog2 = new Dog(true, true, 0);
-            Frog frog1 = new Frog(false,false,0);
-            Frog frog2 = new Frog(false,false ,1);
-            Animal[] animals = { cat1, cat2,dog1,dog2,frog1,frog2 }; 
-         //   foreach(Animal animal )
+            Cat cat = new Cat(true, true, 1);
+            Dog dog = new Dog(true, true, 1);
+            Frog frog = new Frog(false,false,0);
+            Animal[] animalsArr = { cat,dog,frog };
+            List<Animal> animals = new List<Animal>();
+            animals.AddRange(animalsArr);
+            foreach (Animal animal in animals )
+            {
+                Console.WriteLine("Hello this is the " + (animal is Water  ? "Frog !" :( animal is Dog) ? "dog !" : "Cat !"));
+                Console.WriteLine("is it carnivorous? "+animal.isCarnivorous().ToString());
+                Console.WriteLine("is it Mammals? " + animal.isMammals().ToString());
+                if (animal is Land land)
+                {                  
+                    Console.WriteLine("How many legs it has? " + land.getNumberOfLegs());
+                }
+                Console.WriteLine("How it communicates when it is afraid? ");
+                animal.sayHello(0);
+                Console.Write("and when it is in a good mood? ");
+                animal.sayHello(1);
+                Console.Write("How it is used to saying goodbye to people? ");
+                animal.sayHello();
+                if(animal is Water water)
+                {
+                   Console.WriteLine("is it hasLaysEggs? " + water.hasLaysEggs());
+                   Console.WriteLine("is it hasGills? " + water.hasGills());
+                }
+
+                Console.ReadLine();
+            }
 
             
         }
@@ -46,7 +67,9 @@ namespace Animals
 
         }
         public abstract void sayHello(int mood);//איך מברכת אנשים לשלום במצב רוח מסוים
-        public virtual void sayHello() { }//איך בד"כ מברכת לשלום
+        public virtual void sayHello() {
+            Console.WriteLine("it isnt used to saying goodbye to people.");
+        }//איך בד"כ מברכת לשלום
         public bool isMammals() { return mammals; } 
         public void setMammals(Boolean mammals) { this.mammals = mammals; }
         public bool isCarnivorous() { return carnivorous; }
@@ -78,7 +101,7 @@ namespace Animals
             return numberOfLegs;
         }
     }
-    public class Cat : Animal
+    public class Cat : Animal,Land
     {
         int numberOfLegs=4;
         public override int MOOD_HAPPY => 1;
